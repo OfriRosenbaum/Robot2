@@ -25,4 +25,20 @@ public class Elevator extends SubsystemBase {
         this.digitalInputTop = digitalInputTop;
         this.encoder = encoder;
     }
+
+    public void elevate(double speed){
+        speedController1.set(speed);
+    }
+
+    public void stopElevator(){
+        speedController1.stopMotor();
+    }
+
+    public void resetEncoder() {
+        encoder.reset();
+    }
+
+    public double returnEncoderDistance() {
+        return encoder.getDistance();
+    }
 }

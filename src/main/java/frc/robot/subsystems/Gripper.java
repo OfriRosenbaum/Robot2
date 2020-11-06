@@ -9,6 +9,8 @@ public class Gripper extends SubsystemBase {
     private WPI_VictorSPX speedController1;
     private WPI_VictorSPX speedController2;
     private DigitalInput digitalInput;
+    public static final double IN_SPEED=0.5;
+    public static final double OUT_SPEED=-0.5;
 
     public Gripper(WPI_VictorSPX speedController1, WPI_VictorSPX speedController2, DigitalInput digitalInput) {
         this.speedController1 = speedController1;
@@ -21,14 +23,14 @@ public class Gripper extends SubsystemBase {
     return digitalInput.get();
     }
 
-    public void grip(double speed){
-    speedController1.set(speed);
-    speedController2.set(speed);
+    public void grip(){
+    speedController1.set(IN_SPEED);
+    speedController2.set(IN_SPEED);
     }
 
     public void release(){
-    speedController1.set();
-    speedController2.set();
+    speedController1.set(OUT_SPEED);
+    speedController2.set(OUT_SPEED);
     }
 
     public void stopGripper(){
