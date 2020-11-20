@@ -33,7 +33,6 @@ public class Elevate extends CommandBase {
     @Override
     public void initialize() {
         pidController = new PIDController(kP.get(), kI.get(), kD.get());
-        elevator.resetEncoder();
     }
 
     @Override
@@ -41,5 +40,15 @@ public class Elevate extends CommandBase {
         pidController.setPID(kP.get(), kI.get(), kD.get());
         pidController.setTolerance(tolerance.get());
         elevator.elevate(pidController.calculate(elevator.returnEncoderDistance(), setpoint.get()));
+    }
+
+    @Override
+    public boolean isFinished(){
+    return (elevator.returnEncoderDistance()>=setpoint.get()-tolerance.get() &&
+            elevator.returnEncoderDistance()<=setpoint.get()+tolerance.get());
+    }
+    @Override
+    public void end(boolean interrupted){
+        elevator.stopElevator();
     }
 }

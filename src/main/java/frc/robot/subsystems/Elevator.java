@@ -13,6 +13,8 @@ public class Elevator extends SubsystemBase {
     private DigitalInput digitalInputMiddle;
     private DigitalInput digitalInputTop;
     private Encoder encoder;
+    public static final int TICKS_MIDDLE=2500;
+    public static final int TICKS_TOP=5000;
 
     public Elevator(WPI_TalonSRX speedController1, WPI_VictorSPX speedController2,
                     WPI_VictorSPX speedController3, DigitalInput digitalInputBottom, DigitalInput digitalInputMiddle,
@@ -34,11 +36,20 @@ public class Elevator extends SubsystemBase {
         speedController1.stopMotor();
     }
 
-    public void resetEncoder() {
-        encoder.reset();
-    }
 
     public double returnEncoderDistance() {
         return encoder.getDistance();
+    }
+
+    @Override
+    public void periodic() {
+        if(digitalInputBottom.get())
+            speedController1.setSelectedSensorPosition(0);
+        else
+            if (digitalInputMiddle.get())
+                speedController1.setSelectedSensorPosition(TICKS_MIDDLE);
+            else
+                if (digitalInputTop.get())
+                    speedController1.setSelectedSensorPosition(TICKS_TOP);
     }
 }
